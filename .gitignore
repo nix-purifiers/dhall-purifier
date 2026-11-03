@@ -1,0 +1,6 @@
+result*
+cli
+.dhall-purifier/
+__pycache__/
+*.pyc
+*.log

@@ -1,0 +1,36 @@
+{
+  "compiler": "1.42.3",
+  "entries": [
+    {
+      "dhall": {
+        "expression": "https://raw.githubusercontent.com/dhall-lang/dhall-lang/v20.1.0/Prelude/Natural/sum\n  sha256:33f7f4c3aff62e5ecf4848f964363133452d420dcde045784518fb59fa970037",
+        "hash": "33f7f4c3aff62e5ecf4848f964363133452d420dcde045784518fb59fa970037",
+        "mode": "Code"
+      },
+      "hash": "sha256-M/f0w6/2Ll7PSEj5ZDYxM0UtQg3N4EV4RRj7WfqXADc=",
+      "mirrors": [],
+      "path": "cache/122033f7f4c3aff62e5ecf4848f964363133452d420dcde045784518fb59fa970037",
+      "url": "https://raw.githubusercontent.com/dhall-lang/dhall-lang/v20.1.0/Prelude/Natural/sum"
+    }
+  ],
+  "extraInputs": [],
+  "inputs": {},
+  "project": {
+    "package.dhall": [
+      {
+        "expression": "https://raw.githubusercontent.com/dhall-lang/dhall-lang/v20.1.0/Prelude/Natural/sum\n  sha256:33f7f4c3aff62e5ecf4848f964363133452d420dcde045784518fb59fa970037",
+        "hash": "33f7f4c3aff62e5ecf4848f964363133452d420dcde045784518fb59fa970037",
+        "headers": false,
+        "mode": "Code",
+        "type": "remote",
+        "url": "https://raw.githubusercontent.com/dhall-lang/dhall-lang/v20.1.0/Prelude/Natural/sum"
+      }
+    ]
+  },
+  "purifier": "dhall",
+  "roots": [
+    "package.dhall"
+  ],
+  "sdk": "3e2368aa324fede7b63f54d13968b6a3efa68a63d0a4610bb86877a7ce58013d",
+  "version": 1
+}
