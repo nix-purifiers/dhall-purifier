@@ -62,6 +62,7 @@
           p = pkgsFor system;
           b = p.dhall-purifier.buildDhallProject {
             src = ./examples/minimal;
+            exportJSON = true;
             doCheck = true;
             checkCommand = ''test "$(dhall-to-json --file "$out/source.dhall" | ${p.jq}/bin/jq .answer)" = 42'';
           };
@@ -69,6 +70,16 @@
         {
           inherit (b.packages) environment project;
           release = b.release;
+          json = import (purifier + "/tests/json-consumer.nix") {
+            pkgs = p;
+            producer = b;
+            expectedKey = "answer";
+            expectedValue = 42;
+          };
+          resources = import ./tests/resource-consumer.nix {
+            pkgs = p;
+            projection = b.projections.resources;
+          };
           cli = self.packages.${system}.default;
         }
       );

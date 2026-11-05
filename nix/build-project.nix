@@ -18,6 +18,7 @@
   lockFile ? src + "/dhall-purifier.lock.json",
   file ? null,
   fetchers ? { },
+  exportJSON ? false,
   nativeBuildInputs ? [ ],
   doCheck ? false,
   checkCommand ? "",
@@ -45,7 +46,7 @@ let
     mkdir -p "$out"
     cp -pr ${rawSource}/. "$out/"
   '';
-  project =
+  builtProject =
     runCommand "dhall-native-project"
       {
         nativeBuildInputs = [
@@ -71,6 +72,26 @@ let
         printf 'missing %s\n' "$digest" > "$out/binary.dhall"
         ${lib.optionalString doCheck checkCommand}
       '';
+  jsonOutput = runCommand "dhall-json-output" { nativeBuildInputs = [ tools.dhall-json ]; } ''
+    mkdir -p "$out"
+    dhall-to-json --file ${builtProject}/source.dhall > "$out/output.json"
+  '';
+  projections =
+    (purifier.resourceProjections {
+      producer = builtProject;
+      roots."source.dhall" = "source.dhall";
+      inherit runCommand python3;
+    })
+    // lib.optionalAttrs exportJSON (
+      purifier.dataProjections {
+        producer = jsonOutput;
+        files.default = "output.json";
+        inherit runCommand python3;
+      }
+    );
+  project = builtProject // {
+    inherit projections;
+  };
   release =
     runCommand "dhall-native-release"
       {
@@ -98,6 +119,6 @@ assert lib.assertMsg (builtins.elem root lock.data.roots) "Choose a locked Dhall
     environment = prepared.output;
   };
   tests = project;
-  inherit release;
+  inherit release projections;
   fetches = lock.entries;
 }
