@@ -79,6 +79,20 @@ The imports' fetch hashes cover Dhall's canonical binary encodings. A fixed-outp
 Nix derivation runs the native resolver and checks both those bytes and Dhall's
 integrity checks.
 
+## Resource projections
+
+The result and `packages.project` expose resource/web/Java-resource projections
+of the normalized, import-resolved `source.dhall`. Use
+`projections.resources.directory`, `projections.web.documentRoot`, or
+`projections.java-resources.classPath`; binary import caches are excluded.
+
+Set `exportJSON = true` to additionally expose `projections.json.files.default`
+and its digest catalog. Ordinary `dhall-to-json` evaluates the closed expression;
+non-JSON Dhall expressions fail only when this optional projection is built.
+The existing native Dhall output remains usable for functions and types. The
+check passes the projected JSON directly to ordinary Helm and verifies the
+rendered value, as well as reading the source resource through HTTP and Java.
+
 ## Credits
 
 The purifier idea was inspired by nixcloud's
