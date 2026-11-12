@@ -11,7 +11,7 @@ let
     inherit nixpkgsSrc;
     inherit (pkgs) dhall;
   };
-  builder = pkgs.callPackage ./build-project.nix {
+  builder = pkgs.callPackage ./default.nix {
     inherit
       purifier
       nativeFetch

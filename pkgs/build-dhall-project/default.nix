@@ -24,7 +24,9 @@
   checkCommand ? "",
 }:
 let
-  lock = purifier.checkLock (import ./read-lock.nix { inherit lib; } { inherit src lockFile; });
+  lock = purifier.checkLock (
+    import ../../lib-overlays/default/read-lock.nix { inherit lib; } { inherit src lockFile; }
+  );
   prepared = import ./environment.nix (builtins.removeAttrs scope [
     "gnutar"
     "gzip"
@@ -42,7 +44,7 @@ let
       ]);
   };
   source = runCommand "dhall-validated-source" { } ''
-    ${python3}/bin/python3 ${../dhall_purifier}/validate-project.py ${nativeInspector}/bin/dhall-inspect ${rawSource} ${writeText "dhall-project.json" (builtins.toJSON lock.data)}
+    ${python3}/bin/python3 ${../../dhall_purifier}/validate-project.py ${nativeInspector}/bin/dhall-inspect ${rawSource} ${writeText "dhall-project.json" (builtins.toJSON lock.data)}
     mkdir -p "$out"
     cp -pr ${rawSource}/. "$out/"
   '';

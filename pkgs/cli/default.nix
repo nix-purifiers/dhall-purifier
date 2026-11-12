@@ -29,19 +29,19 @@ in
 stdenvNoCC.mkDerivation {
   pname = "dhall-purifier";
   version = "0.1.0";
-  src = ../.;
+  src = ../..;
   nativeBuildInputs = [ makeWrapper ];
   dontBuild = true;
   installPhase = ''
     mkdir -p "$out/bin" "$out/lib/dhall-purifier"
-    cp -r dhall_purifier nix native "$out/lib/dhall-purifier/"
+    cp -r dhall_purifier pkgs lib-overlays native "$out/lib/dhall-purifier/"
     mkdir -p "$out/lib/dhall-purifier/locked-tools"
     ln -s ${tools.dhall} "$out/lib/dhall-purifier/locked-tools/dhall"
     ln -s ${tools.dhall-json} "$out/lib/dhall-purifier/locked-tools/json"
     ln -s ${tools.dhall-lsp-server} "$out/lib/dhall-purifier/locked-tools/lsp"
     install -m755 bin/dhall-purifier "$out/bin/dhall-purifier"
     for file in realize release; do
-      substituteInPlace "$out/lib/dhall-purifier/nix/$file.nix" --replace-fail '@nixpkgs@' '${nixpkgsSrc}' --replace-fail '@purifier@' '${purifierSrc}'
+      substituteInPlace "$out/lib/dhall-purifier/pkgs/build-dhall-project/$file.nix" --replace-fail '@nixpkgs@' '${nixpkgsSrc}' --replace-fail '@purifier@' '${purifierSrc}'
     done
     wrapProgram "$out/bin/dhall-purifier" \
       --prefix PATH : ${
