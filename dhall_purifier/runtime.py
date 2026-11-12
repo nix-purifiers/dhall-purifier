@@ -17,7 +17,7 @@ def prepare(root, companion):
     expression = (
         "import "
         + json.dumps(
-            os.environ["DHALL_PURIFIER_SDK"] + "/lib/dhall-purifier/nix/realize.nix"
+            os.environ["DHALL_PURIFIER_SDK"] + "/lib/dhall-purifier/pkgs/build-dhall-project/realize.nix"
         )
         + " {root="
         + json.dumps(str(root))

@@ -80,7 +80,7 @@ def main():
         expression = (
             "import "
             + json.dumps(
-                os.environ["DHALL_PURIFIER_SDK"] + "/lib/dhall-purifier/nix/release.nix"
+                os.environ["DHALL_PURIFIER_SDK"] + "/lib/dhall-purifier/pkgs/build-dhall-project/release.nix"
             )
             + " {root="
             + json.dumps(str(root))
